@@ -2,7 +2,7 @@
   "name": "@barfinex/orders",
   "version": "0.0.0-development",
   "private": false,
-  "description": "Shared Orders for Barfinex ecosystem",
+  "description": "Orders library for the Barfinex ecosystem. Provides shared order models, services, and utilities for creating, managing, and processing trading orders in a unified way.",
   "author": "Barfinex",
   "license": "MIT",
   "homepage": "https://github.com/barfinex/lib-orders#readme",
@@ -23,6 +23,28 @@
     "clean": "rimraf dist",
     "release": "semantic-release"
   },
+  "keywords": [
+    "barfinex",
+    "orders",
+    "order-management",
+    "trading",
+    "trade",
+    "exchange",
+    "market",
+    "nestjs",
+    "nestjs-module",
+    "typescript",
+    "models",
+    "services",
+    "utilities"
+  ],
+  "peerDependencies": {
+    "@nestjs/common": "^10.0.0",
+    "@barfinex/connectors": "workspace:*",
+    "@barfinex/plugin-driver": "workspace:*",
+    "@barfinex/utils": "workspace:*",
+    "@barfinex/types": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^5.6.0",
     "rimraf": "^5.0.0",
@@ -31,7 +53,12 @@
     "@semantic-release/git": "^10.0.0",
     "@semantic-release/github": "^10.0.0",
     "@semantic-release/commit-analyzer": "^13.0.0",
-    "@semantic-release/release-notes-generator": "^14.0.0"
+    "@semantic-release/release-notes-generator": "^14.0.0",
+    "@nestjs/common": "^10.0.0",
+    "@barfinex/connectors": "*",
+    "@barfinex/plugin-driver": "*",
+    "@barfinex/utils": "*",
+    "@barfinex/types": "*"
   },
   "publishConfig": {
     "access": "public"

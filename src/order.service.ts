@@ -1,4 +1,10 @@
-import { Inject, Injectable, Optional, forwardRef } from '@nestjs/common';
+import {
+    Inject,
+    Injectable,
+    Optional,
+    forwardRef,
+} from '@nestjs/common';
+
 import {
     Account,
     Order,
@@ -11,7 +17,9 @@ import {
     ConnectorType,
     MarketType,
     OrderSourceType,
+    OrderSource,
 } from '@barfinex/types';
+
 import { ConnectorService } from '@barfinex/connectors';
 import { PluginDriverService } from '@barfinex/plugin-driver';
 
@@ -20,22 +28,21 @@ import {
     isSamePrice,
     applyMarketOrderToPositions,
 } from './order.helpers';
+
 import {
     calculateBreakEvenPrice,
     calculatePnL,
     calculateROI,
     isBreakEvenPriceActive,
 } from './metrics.service';
+
 import { getTPSLOrders, getTPSLPrices } from './tpsl.service';
 
 @Injectable()
 export class OrderService {
-    @Inject(ConnectorService)
-    private readonly connectorService: ConnectorService;
-
     constructor(
-        @Optional()
-        @Inject(forwardRef(() => PluginDriverService))
+        private readonly connectorService: ConnectorService,
+        @Optional() @Inject(forwardRef(() => PluginDriverService))
         private readonly pluginDriverService?: PluginDriverService,
     ) { }
 
@@ -66,7 +73,7 @@ export class OrderService {
         account = ensureAccountArrays(account);
 
         order.useSandbox = !!order.useSandbox;
-        order.quantity = Math.abs(order.quantity);
+        order.quantity = Math.abs(order.quantity ?? 0);
 
         const millis =
             typeof openOrderMoment === 'number'
@@ -75,7 +82,8 @@ export class OrderService {
 
         if (!order.price && order.type !== OrderType.MARKET) {
             throw new Error(
-                `[${order.source?.type ?? 'unknown'}:${order.source?.key ?? 'n/a'}] Not enough price data to create order (non-market).`,
+                `[${order.source?.type ?? 'unknown'}:${order.source?.key ?? 'n/a'
+                }] Not enough price data to create order (non-market).`,
             );
         }
 
@@ -89,7 +97,8 @@ export class OrderService {
         ) {
             if (millis < 1000) {
                 throw new Error(
-                    `[${order.source?.type ?? 'unknown'}:${order.source?.key ?? 'n/a'}] openOrder() called too often`,
+                    `[${order.source?.type ?? 'unknown'}:${order.source?.key ?? 'n/a'
+                    }] openOrder() called too often`,
                 );
             }
         }
@@ -108,7 +117,10 @@ export class OrderService {
         if (duplicate) {
             order = { ...duplicate };
         } else {
-            order = await this.connectorService.openOrder({ order, providerRestApiUrl });
+            order = await this.connectorService.openOrder({
+                order,
+                providerRestApiUrl,
+            });
         }
 
         if (order.type === OrderType.MARKET) {
@@ -118,7 +130,10 @@ export class OrderService {
         }
 
         if (this.pluginDriverService) {
-            await this.pluginDriverService.asyncReduce(PluginHook.onOrderOpen, order);
+            await this.pluginDriverService.asyncReduce(
+                PluginHook.onOrderOpen,
+                order,
+            );
         }
 
         openOrderMoment = Date.now();
@@ -151,9 +166,14 @@ export class OrderService {
         order.priceClose = closePrice;
         order.quantityExecuted = order.quantity;
 
-        await this.connectorService.closeOrder({ order, providerRestApiUrl });
+        await this.connectorService.closeOrder({
+            order,
+            providerRestApiUrl,
+        });
 
-        account.orders = account.orders.filter((q) => q.externalId !== order.externalId);
+        account.orders = account.orders.filter(
+            (q) => q.externalId !== order.externalId,
+        );
 
         return { order: { ...order }, account };
     }
@@ -170,7 +190,15 @@ export class OrderService {
         providerRestApiUrl: string;
         useSandbox?: boolean;
     }): Promise<{ position: Position; account: Account }> {
-        const { account, symbol, side, quantity, price, providerRestApiUrl, useSandbox } = options;
+        const {
+            account,
+            symbol,
+            side,
+            quantity,
+            price,
+            providerRestApiUrl,
+            useSandbox,
+        } = options;
 
         const { account: updatedAccount } = await this.openOrder({
             order: {
@@ -180,8 +208,8 @@ export class OrderService {
                 quantity,
                 price,
                 useSandbox: !!useSandbox,
-                connectorType: account.connectorType, // 🔹 добавлено
-                marketType: account.marketType,       // 🔹 добавлено
+                connectorType: account.connectorType,
+                marketType: account.marketType,
                 source: {
                     type: OrderSourceType.detector,
                     key: 'algo-strategy',
@@ -211,9 +239,10 @@ export class OrderService {
         account: Account;
         providerRestApiUrl: string;
         quantity?: number;
-        useSandbox?: boolean; // ✅ добавляем
+        useSandbox?: boolean;
     }): Promise<{ order: Order; account: Account }> {
-        const { position, account, providerRestApiUrl, quantity, useSandbox } = options;
+        const { position, account, providerRestApiUrl, quantity, useSandbox } =
+            options;
 
         const side: OrderSide =
             position.side === TradeSide.LONG ? OrderSide.SELL : OrderSide.BUY;
@@ -225,9 +254,9 @@ export class OrderService {
                 type: OrderType.MARKET,
                 quantity: quantity ?? position.quantity,
                 price: position.lastPrice,
-                useSandbox: useSandbox ?? false, // ✅ теперь можно управлять
-                connectorType: account.connectorType, // 🔹 сохранил
-                marketType: account.marketType,       // 🔹 сохранил
+                useSandbox: useSandbox ?? false,
+                connectorType: account.connectorType,
+                marketType: account.marketType,
                 source: {
                     type: OrderSourceType.detector,
                     key: 'algo-strategy',
@@ -240,7 +269,6 @@ export class OrderService {
 
         return { order, account: updatedAccount };
     }
-
 
     /**
      * ================== TPSL и метрики ==================

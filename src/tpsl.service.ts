@@ -1,21 +1,21 @@
-import { OrderSide, OrderType } from '@barfinex/types';
-import { numberOfCharactersBeforeAndAfter } from '@barfinex/utils/math';
+import { OrderSide, OrderType, TradeSide } from '@barfinex/types';
+import { math } from '@barfinex/utils';
 
 /**
  * Расчёт TakeProfit / StopLoss цен
  */
 export function getTPSLPrices(options: {
-    positionSide: OrderSide,
+    positionSide: TradeSide,
     price: number,
     stopLossPercent: number,
     takeProfitPercent: number
 }): { takeProfitPrice: number, stopLossPrice: number } {
     const { positionSide, price, stopLossPercent, takeProfitPercent } = options;
 
-    const characters = numberOfCharactersBeforeAndAfter(price);
+    const characters = math.numberOfCharactersBeforeAndAfter(price);
     const after = Math.max(2, characters.after) - 1;
 
-    const exitSide = (positionSide === OrderSide.BUY) ? OrderSide.SELL : OrderSide.BUY;
+    const exitSide = (positionSide === TradeSide.LONG) ? OrderSide.SELL : OrderSide.BUY;
 
     let takeProfitPrice = 0;
     let stopLossPrice = 0;
