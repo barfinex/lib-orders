@@ -24,7 +24,7 @@ export function isSamePrice(a?: number, b?: number, eps = 1e-8): boolean {
 }
 
 /** Маппинг сторон ордера в сторону позиции */
-function orderSideToTradeSide(side?: OrderSide): TradeSide {
+function orderSideToTradeSide(side?: OrderSide | null): TradeSide {
     return side === OrderSide.BUY ? TradeSide.LONG : TradeSide.SHORT;
 }
 

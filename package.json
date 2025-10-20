@@ -40,10 +40,10 @@
   ],
   "peerDependencies": {
     "@nestjs/common": "^10.0.0",
-    "@barfinex/connectors": "workspace:*",
-    "@barfinex/plugin-driver": "workspace:*",
-    "@barfinex/utils": "workspace:*",
-    "@barfinex/types": "workspace:*"
+    "@barfinex/connectors": "*",
+    "@barfinex/plugin-driver": "*",
+    "@barfinex/utils": "*",
+    "@barfinex/types": "*"
   },
   "devDependencies": {
     "typescript": "^5.6.0",

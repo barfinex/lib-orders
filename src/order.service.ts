@@ -111,7 +111,7 @@ export class OrderService {
                 q.type === order.type &&
                 q.side === order.side &&
                 q.quantity === order.quantity &&
-                (order.type === OrderType.MARKET || isSamePrice(q.price, order.price)),
+                (order.type === OrderType.MARKET || isSamePrice(q.price ?? undefined, order.price ?? undefined)),
         );
 
         if (duplicate) {
@@ -200,6 +200,11 @@ export class OrderService {
             useSandbox,
         } = options;
 
+
+        if (!account.connectorType || !account.marketType) {
+            throw new Error('Account is missing connectorType or marketType');
+        }
+
         const { account: updatedAccount } = await this.openOrder({
             order: {
                 symbol,
@@ -246,6 +251,10 @@ export class OrderService {
 
         const side: OrderSide =
             position.side === TradeSide.LONG ? OrderSide.SELL : OrderSide.BUY;
+
+        if (!account.connectorType || !account.marketType) {
+            throw new Error('Account is missing connectorType or marketType');
+        }
 
         const { order, account: updatedAccount } = await this.openOrder({
             order: {
