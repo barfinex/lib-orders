@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     /* === базовые параметры === */
     "target": "ES2020",
@@ -12,9 +12,9 @@
     "tsBuildInfoFile": "../../dist/libs/orders.tsbuildinfo",
     "composite": true,
     /* === поддержка декораторов (NestJS) === */
-    "experimentalDecorators": true, // ✅ включает поддержку @Inject, @Optional
-    "emitDecoratorMetadata": true, // ✅ нужно для Reflect Metadata
-    "useDefineForClassFields": false, // ✅ обязательно для совместимости с NestJS 10+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
     /* === строгая типизация и стабильность === */
     "strict": true,
     "esModuleInterop": true,
@@ -37,10 +37,12 @@
       ],
       "@barfinex/connectors": [
         "libs/connectors/src"
+      ],
+      "@barfinex/key": [
+        "libs/key/src"
       ]
     }
   },
-  /* === области === */
   "include": [
     "src/**/*.ts"
   ],
@@ -50,22 +52,4 @@
     "**/*.spec.ts",
     "**/*.test.ts"
   ],
-  /* === project references === */
-  "references": [
-    {
-      "path": "../types"
-    },
-    {
-      "path": "../utils"
-    },
-    {
-      "path": "../plugin-driver"
-    },
-    {
-      "path": "../connectors"
-    },
-    {
-      "path": "../key"
-    }
-  ]
 }
