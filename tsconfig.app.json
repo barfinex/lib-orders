@@ -7,9 +7,9 @@
     "declaration": true,
     "emitDeclarationOnly": false,
     "rootDir": "./src",
-    "outDir": "../../dist/libs/orders",
-    "declarationDir": "../../dist/libs/orders",
-    "tsBuildInfoFile": "../../dist/libs/orders.tsbuildinfo",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "tsBuildInfoFile": "./dist.tsbuildinfo",
     "composite": true,
     /* === поддержка декораторов (NestJS) === */
     "experimentalDecorators": true,
