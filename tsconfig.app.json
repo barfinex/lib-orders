@@ -4,12 +4,15 @@
     /* === базовые параметры === */
     "target": "ES2020",
     "module": "CommonJS",
+    /* === генерация === */
     "declaration": true,
     "emitDeclarationOnly": false,
-    "rootDir": "./src",
+    /* === структура === */
+    "rootDir": "src",
     "outDir": "./dist",
     "declarationDir": "./dist",
-    "tsBuildInfoFile": "./dist.tsbuildinfo",
+    "tsBuildInfoFile": "../../dist/libs/orders.tsbuildinfo",
+    /* === проектная сборка === */
     "composite": true,
     /* === поддержка декораторов (NestJS) === */
     "experimentalDecorators": true,
@@ -52,4 +55,21 @@
     "**/*.spec.ts",
     "**/*.test.ts"
   ],
+  "references": [
+    {
+      "path": "../types"
+    },
+    {
+      "path": "../utils"
+    },
+    {
+      "path": "../plugin-driver"
+    },
+    {
+      "path": "../connectors"
+    },
+    {
+      "path": "../key"
+    }
+  ]
 }
