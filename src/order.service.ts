@@ -207,6 +207,7 @@ export class OrderService {
 
         const { account: updatedAccount } = await this.openOrder({
             order: {
+                closeTime: null,
                 symbol,
                 side: side === TradeSide.LONG ? OrderSide.BUY : OrderSide.SELL,
                 type: OrderType.MARKET,
@@ -258,6 +259,7 @@ export class OrderService {
 
         const { order, account: updatedAccount } = await this.openOrder({
             order: {
+                closeTime: null,
                 symbol: position.symbol,
                 side,
                 type: OrderType.MARKET,
