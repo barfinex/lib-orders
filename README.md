@@ -1,27 +1,21 @@
 # @barfinex/orders
 
-**`@barfinex/orders`** is the **order management and execution layer** of the [Barfinex](https://barfinex.com) ecosystem — an open-source platform for algorithmic trading, quantitative research, and digital asset infrastructure.
+**Order management and execution layer** for the [Barfinex](https://barfinex.com) ecosystem — create, update, cancel, and track orders in one place, with TP/SL and metrics support.
 
-This package consolidates **services, modules, and helpers** that implement unified order lifecycle management, including order creation, updates, cancellation, and tracking across supported trading connectors.
-
-It ensures:
-- 📊 **Consistency** — all order-related logic is handled in one place.
-- ⚡ **Efficiency** — provides utilities for order metrics, TP/SL (take-profit & stop-loss) automation, and risk management.
-- 🛡 **Reliability** — integrates with connectors and detectors to ensure accurate order execution.
-- 🔌 **Extensibility** — can be extended with custom order-handling strategies.
+This library unifies order lifecycle across connectors and detectors. Use it in Provider, Detector, or any service that needs to place or manage orders so logic stays consistent and type-safe.
 
 ---
 
-It helps to:
-- unify order handling logic;
-- automate trade management (metrics, TP/SL, risk);
-- ensure **type-safety** and clarity across services.
+## What it does
+
+- **Order lifecycle** — `OrderService` for creation, updates, and cancellation; integration with connectors and detectors.
+- **TP/SL** — `TPSLService` for take-profit and stop-loss handling on open positions.
+- **Metrics** — `MetricsService` for order and performance statistics.
+- **NestJS** — `OrderModule` and helpers for transformation and normalization aligned with `@barfinex/types`.
 
 ---
 
-## 📦 Installation
-
-To install the package, use npm or yarn:
+## Installation
 
 ```sh
 npm install @barfinex/orders
@@ -35,41 +29,34 @@ yarn add @barfinex/orders
 
 ---
 
-## 📚 What's Included
+## What's included
 
-The `@barfinex/orders` package provides the following core modules:
-
-- **OrderService** — core service for managing orders (creation, updates, cancellation).
-- **OrderModule** — NestJS module wiring order services into microservices.
-- **Order Helpers** — utilities for order transformation and normalization.
-- **TPSLService** — automatic Take-Profit and Stop-Loss handling for open positions.
-- **MetricsService** — tracking and analyzing order statistics and performance.
-- **Integration with Detectors & Connectors** — streamlined pipelines for generating and executing trades.
-
----
-
-## 🤝 Contributing
-
-We welcome contributions to improve **order execution standards** in the Barfinex ecosystem:
-
-- 🛠 Open an issue or submit a PR
-- 💡 Suggest new features for automated trading and risk management
-- 💬 Share use cases from your trading experience
-
-Join the conversation in our Telegram community: [t.me/barfinex](https://t.me/barfinex)
+| Export | Purpose |
+|--------|--------|
+| `OrderModule` | NestJS module wiring order services. |
+| `OrderService` | Core order CRUD and execution. |
+| `OrderHelpers` | Transform and normalize order data. |
+| `MetricsService` | Order and performance metrics. |
+| `TPSLService` | Take-profit and stop-loss automation. |
 
 ---
 
-## 📜 License
+## Documentation
 
-This repository is licensed under the [Apache License 2.0](LICENSE) with additional restrictions.
+- **Barfinex overview** — [First Steps](https://barfinex.com/docs/first-steps), [Architecture](https://barfinex.com/docs/architecture), [Glossary](https://barfinex.com/docs/glossary).
+- **Provider (order API)** — [Installation provider](https://barfinex.com/docs/installation-provider), [Provider API reference](https://barfinex.com/docs/provider-api).
+- **Detector (signal → orders)** — [Installation detector](https://barfinex.com/docs/installation-detector), [Signals context API](https://barfinex.com/docs/signals-context).
+- **Inspector (risk)** — [Inspector overview](https://barfinex.com/docs/inspector-overview), [Inspector risk policies](https://barfinex.com/docs/inspector-risk-policies).
+- **Building & troubleshooting** — [Building with the API](https://barfinex.com/docs/frontend-api), [Typical problems and solutions](https://barfinex.com/docs/troubleshooting).
 
-### Key Terms:
-1. **Attribution**: Proper credit must be given to the original author, Barfin Network Limited, with a link to the official website: [https://barfinex.com/](https://barfinex.com/).
-2. **Non-Commercial Use**: The use of this codebase for commercial purposes is prohibited without explicit written permission.
-3. **Display Requirements**: For non-commercial use, the following must be displayed:
-   - The name "Barfin Network Limited".
-   - The official logo.
-   - A working link to [https://barfinex.com/](https://barfinex.com/).
+---
 
-For further details or to request commercial use permissions, contact **Barfin Network Limited** through the official website.
+## Contributing
+
+Ideas for order automation and risk features are welcome. Open an issue or PR. Community: [Telegram](https://t.me/barfinex) · [GitHub](https://github.com/barfinex).
+
+---
+
+## License
+
+Licensed under the [Apache License 2.0](LICENSE) with additional terms. Attribution to **Barfin Network Limited** and a link to [https://barfinex.com](https://barfinex.com) are required. Commercial use requires explicit permission. See [LICENSE](LICENSE) and the [Barfinex site](https://barfinex.com) for details.
